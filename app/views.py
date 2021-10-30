@@ -36,4 +36,11 @@ def index():
     title = 'Welcome to the best News website'
     return render_template('index.html', title = title, general = general_news, sports = sports_news, entertainment = entertainment_news,   health = health_news, business = business_news, technology = tech_news, science = science_news)
 
+@app.route('/articles/<int:id>')
+def articles(id):
+    '''
+    View article function that returns the articles in a source
+    '''
+    articles = get_news_articles(id)
+    return render_template('articles.html', id = id, articles = articles)
     
