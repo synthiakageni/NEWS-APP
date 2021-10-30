@@ -1,6 +1,7 @@
 from app import app
 import urllib.request,json
-from .models import news
+from .models import news,articles
+
 
 News = news.News
 
@@ -49,4 +50,37 @@ def process_results(news_list):
             news_object = News( id, name, description, url, country,vote_count)
             news_results.append(news_object)
         
-    return news_results        
+    return news_results  
+def get_news_articles(id):
+    get_news_articles_url = base_url.format(id, apiKey)
+    
+    with urllib.request.urlopen(get_news_articles_url ) as url:
+        news_articles_data = url.read()
+        news_articles_response = json.loads(news_articles_data)
+        
+        articles_results = None
+        if news_articles_response['articles']:
+            articles_results_list = news_articles_response['articles']
+            articles_results = process_articles(articles_results_list)
+            
+    return articles_results   
+ 
+def process_articles(articles_list):
+    '''
+    method for processing the response
+    '''
+    articles_results = []
+    for article_item in articles_list:
+            author = article_item.get('author')
+            title = article_item.get('title')
+            description = article_item['description']
+            url = article_item.get('url')
+            urlToImage = article_item.get('urlToImage')
+            publishedAt = article_item.get('publishedAt')
+            # (self, title, description, urlToImage, publishedAt, author, url):
+            if urlToImage:
+                articles_object = articles(title, description, urlToImage, publishedAt, author,url)
+                articles_results.append(articles_object)
+            
+    return articles_results
+                    

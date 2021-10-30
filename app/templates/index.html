@@ -1,8 +1,12 @@
 {% extends 'base.html'%}
 {% import 'macros.html' as macro%}
 
+<!-- Content block -->
+{% block content %}
 
             <!-- Popular news -->
+            <div class="container">
+                <div class="row">       
     <h3 class="news-header text-center">General News Today</h3>
     <hr>
     <p>
@@ -26,4 +30,8 @@
     <p>
         {{ macro.displayNewsList (technology) }}
     </p>
-   
+</div>
+
+</div>
+
+    {% endblock%}
