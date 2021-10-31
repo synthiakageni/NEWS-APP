@@ -2,15 +2,15 @@
 
 {% block styles %}
          {{ super() }}
-         <link rel="stylesheet" href="{{url_for('static', filename='css/articles.css')}}" >
+         <link rel="stylesheet" href="{{url_for('static', filename='articles.css')}}" >
 {% endblock %}
 
 {% block content %}
 <div class="container" >
     <div class="row" >
                             {% for article in articles %}
-                            <div class="col-md-4" >
-                                <div class="card border-danger mb-3" >
+                            <div class="col-md-7" >
+                                <div class="card border-danger mb-4" >
                                     <div class="card-header" >
                                         <h4 class="title">
                                             {{article.title}}
@@ -27,7 +27,13 @@
                                     </div>
                                   </div>
                             </div>
-                            {% endfor %}     
+                            {% endfor %}  
+                            <style>
+                                *{
+                                  background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)) ;
+                                }
+                                
+                              </style>    
                         </div>
                     </div>
 
