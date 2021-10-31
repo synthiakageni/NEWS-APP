@@ -1,14 +1,12 @@
 class News:
     '''
-    Movie class to define News Objects
+    News class that defines the news objects
     '''
-
-    def __init__(self,id,title,overview,poster,vote_average,vote_count):
-        self.id =id
-        self.title = title
-        self.overview = overview
-        self.poster = 'https://newsapi.org/'+ poster
-        self.vote_average = vote_average
-        self.vote_count = vote_count
-
+    
+    def __init__(self, id, name, description, url, country):
+        self.id = id
+        self.name = name
+        self.description = description
+        self.url = url
+        self.country = country
         

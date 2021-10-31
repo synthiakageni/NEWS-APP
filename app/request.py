@@ -2,13 +2,22 @@ from app import app
 import urllib.request,json
 from .models import news,articles
 
+News= news.News
 
-News = news.News
 
 # Getting api key
 apiKey = app.config['NEWS_API_KEY']
 # Getting the news base url
 base_url = app.config["NEWS_API_BASE_URL"]
+# getting articles url
+articles_url = None
+def configure_request(app):
+    global apiKey, base_url, articles_url
+    apiKey = app.config['NEWS_API_KEY']
+    base_url = app.config['NEWS_API_BASE_URL']
+    articles_url = app.config['ARTICLES_URL']
+    
+
 def get_news(category):
     '''
     Function that gets the json response to our url request
@@ -44,15 +53,14 @@ def process_results(news_list):
         description = news_item.get('description')
         url = news_item.get('url')
         country = news_item.get('country')
-        vote_count = news_item.get('vote_count')
-
+        
         if url:
-            news_object = News( id, name, description, url, country,vote_count)
+            news_object = news.News( id, name, description, url, country)
             news_results.append(news_object)
         
     return news_results  
 def get_news_articles(id):
-    get_news_articles_url = base_url.format(id, apiKey)
+    get_news_articles_url = articles_url.format(id, apiKey)
     
     with urllib.request.urlopen(get_news_articles_url ) as url:
         news_articles_data = url.read()
@@ -63,8 +71,9 @@ def get_news_articles(id):
             articles_results_list = news_articles_response['articles']
             articles_results = process_articles(articles_results_list)
             
-    return articles_results   
- 
+    return articles_results
+
+
 def process_articles(articles_list):
     '''
     method for processing the response
@@ -83,4 +92,4 @@ def process_articles(articles_list):
                 articles_results.append(articles_object)
             
     return articles_results
-                    
+                  
