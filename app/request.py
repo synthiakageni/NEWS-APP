@@ -10,7 +10,8 @@ apiKey = app.config['NEWS_API_KEY']
 # Getting the news base url
 base_url = app.config["NEWS_API_BASE_URL"]
 # getting articles url
-articles_url = None
+articles_url = app.config['ARTICLES_URL']
+
 def configure_request(app):
     global apiKey, base_url, articles_url
     apiKey = app.config['NEWS_API_KEY']
@@ -88,7 +89,7 @@ def process_articles(articles_list):
             publishedAt = article_item.get('publishedAt')
             # (self, title, description, urlToImage, publishedAt, author, url):
             if urlToImage:
-                articles_object = articles(title, description, urlToImage, publishedAt, author,url)
+                articles_object = articles.Articles(title, description, urlToImage, publishedAt, author,url)
                 articles_results.append(articles_object)
             
     return articles_results
