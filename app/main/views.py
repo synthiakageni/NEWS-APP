@@ -1,10 +1,10 @@
 from flask import render_template,request,redirect,url_for
-from app import app
-from .request import get_news
-from .request import get_news, get_news_articles,search_article
+from . import main
+from ..request import get_news
+from ..request import get_news, get_news_articles,search_article
 # Views
 
-@app.route('/')
+@main.route('/')
 def index():
     '''
     function that returns the index page and its data 
@@ -27,14 +27,14 @@ def index():
     else:
      return render_template('index.html', title = title, general = general_news, sports = sports_news, entertainment = entertainment_news,   health = health_news, business = business_news, technology = tech_news, science = science_news)
 
-@app.route('/articles/<id>')
+@main.route('/articles/<id>')
 def articles(id):
     '''
     View article function that returns the articles in a source
     '''
     articles = get_news_articles(id)
     return render_template('articles.html', id = id, articles = articles)
-@app.route('/search/<article_name>')
+@main.route('/search/<article_name>')
 def search(article_name):
     '''
     View function to display the search results

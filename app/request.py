@@ -1,20 +1,19 @@
-from app import app
-import urllib.request,json
-from .models import news,articles
 
-News= news.News
+import urllib.request,json
+from .models import News,Articles
+
 
 
 # Getting api key
-apiKey = app.config['NEWS_API_KEY']
+apiKey = None
 # Getting the news base url
-base_url = app.config["NEWS_API_BASE_URL"]
+base_url = None
 # getting articles url
-articles_url = app.config['ARTICLES_URL']
+articles_url = None
 
 def configure_request(app):
     global apiKey, base_url, articles_url
-    apiKey = app.config['NEWS_API_KEY']
+    apiKey = '9e39ae20a19949608f7bdebeb6d1ee02'
     base_url = app.config['NEWS_API_BASE_URL']
     articles_url = app.config['ARTICLES_URL']
     
@@ -56,7 +55,7 @@ def process_results(news_list):
         country = news_item.get('country')
         
         if url:
-            news_object = news.News( id, name, description, url, country)
+            news_object = News( id, name, description, url, country)
             news_results.append(news_object)
         
     return news_results  
@@ -89,12 +88,12 @@ def process_articles(articles_list):
             publishedAt = article_item.get('publishedAt')
             # (self, title, description, urlToImage, publishedAt, author, url):
             if urlToImage:
-                articles_object = articles.Articles(title, description, urlToImage, publishedAt, author,url)
+                articles_object = Articles(title, description, urlToImage, publishedAt, author,url)
                 articles_results.append(articles_object)
             
     return articles_results
 def search_article(article_name):
-    search_article_url = 'https://newsapi.org/v2/top-headlines?sources={}&apiKey={}'.format(apiKey,article_name)
+    search_article_url = 'https://newsapi.org/v2/top-headlines?sources={}&apiKey={}'.format(apiKey, article_name)
     with urllib.request.urlopen(search_article_url) as url:
         search_article_data = url.read()
         search_article_response = json.loads(search_article_data)
